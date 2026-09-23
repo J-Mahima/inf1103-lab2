@@ -35,19 +35,15 @@ def generate_report(inventory, error):
 
 
 while True:
-
     stock = get_valid_input()
-
     if stock == "quit":
         generate_report(inventory, error)
         break
 
-    
     if stock is None:
     # For incorrect non-interger, string or '0' input
         error += 1
         continue
-
 
     else:        
         if stock + inventory > 500:
@@ -57,6 +53,7 @@ while True:
             break
 
         else:
+            calculate_tax(stock)
             process_delivery(inventory, stock)
             continue
         
