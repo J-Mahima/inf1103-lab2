@@ -1,5 +1,11 @@
+inventory = 0
+error = 0
+
 def get_valid_input():
     stock = input("Enter a stock quantity: ")
+    if not stock.isdigit() or int(stock) <= 0:
+        print("Error: Please enter a valid number")
+        stock = input("Enter a stock quantity: ")   
     return stock
 def process_delivery(current_total, new_value):
     return current_total + new_value
@@ -12,9 +18,6 @@ def generate_report(total_units, failed_attempts):
     print("Total Units Processed: ", total_units)
     print("Number of Failed Entries: ", failed_attempts)
 
-
-inventory = 0
-error = 0
 
 while True:
     stock = input("Enter a stock quantity: ")
