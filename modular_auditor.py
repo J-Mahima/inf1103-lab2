@@ -1,48 +1,65 @@
 inventory = 0
+# inventory is the total number of units processed
 error = 0
+# stock is the new stock quantity input by the user
 
 def get_valid_input():
     stock = input("Enter a stock quantity: ")
+
+    if stock.lower() == "quit":
+        return "quit"
+
     if not stock.isdigit() or int(stock) <= 0:
+    # For incorrect non-interger, string or '0' input
         print("Error: Please enter a valid number")
-        stock = input("Enter a stock quantity: ")   
-    return stock
-def process_delivery(current_total, new_value):
-    return current_total + new_value
+        return None
 
-def calculate_tax(amount):
+    else:
+        return int(stock)
+    
+
+def process_delivery(inventory, stock):
+    inventory += stock
+    return inventory
+# Essentially, helps to keep track of the total units processed in the inventory
+
+
+def calculate_tax(stock):
     tax_rate = 0.10
-    return tax_rate * amount
+    return tax_rate * stock
 
-def generate_report(total_units, failed_attempts):
-    print("Total Units Processed: ", total_units)
-    print("Number of Failed Entries: ", failed_attempts)
+
+def generate_report(inventory, error):
+    print("Total Units Processed: ", inventory)
+    print("Number of Failed Entries: ", error)
 
 
 while True:
-    stock = input("Enter a stock quantity: ")
 
-    if stock.lower() == "quit": 
-        print("Total Units Processed: ", inventory)
-        print("Number of Failed Entries: ", error)
+    stock = get_valid_input()
+
+    if stock == "quit":
+        generate_report(inventory, error)
         break
-    
-    elif stock.isdigit() and int(stock) > 0:
 
-        if int(stock) + inventory > 500:
+    
+    if stock is None:
+    # For incorrect non-interger, string or '0' input
+        error += 1
+        continue
+
+
+    else:        
+        if stock + inventory > 500:
             error += 1
             print("Alert! Stock input exceeds maximum inventory capacity of 500 units.")
-            print("Total Units Processed: ", inventory)
-            print("Number of Failed Entries: ", error)
+            generate_report(inventory, error)
             break
 
-        inventory += int(stock)
-        tax_amount = tax(inventory)
+        else:
+            process_delivery(inventory, stock)
+            continue
         
-    else:
-        error += 1
-        print("Error: Please enter a valid number")
-        continue
 
 
 
