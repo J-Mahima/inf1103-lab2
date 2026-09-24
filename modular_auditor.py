@@ -26,7 +26,7 @@ def process_delivery(inventory, stock):
 
 def calculate_tax(stock):
     tax_rate = 0.10
-    return tax_rate * stock
+    return round(float(tax_rate * stock), 2)
 
 
 def generate_report(inventory, error):
@@ -46,16 +46,15 @@ while True:
         continue
 
     else:        
-        if stock + inventory > 500:
-            error += 1
+        inventory = process_delivery(inventory, stock)
+        print("Amount of Tax for this delivery: $", calculate_tax(stock))
+        if inventory > 500:
             print("Alert! Stock input exceeds maximum inventory capacity of 500 units.")
             generate_report(inventory, error)
             break
-
         else:
-            calculate_tax(stock)
-            process_delivery(inventory, stock)
             continue
+
         
 
 
